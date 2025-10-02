@@ -1,0 +1,101 @@
+### Store Management API Testing Guide
+
+### Variables
+@baseUrl = http://localhost:8080
+@contentType = application/json
+# After login, copy the token here (replace the text below)
+@token = YOUR_TOKEN
+
+### STEP 1: Login as Admin (Click "Send Request" above this line)
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+### STEP 2: Login as Manager (Alternative login)
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "username": "manager",
+  "password": "manager123"
+}
+
+### STEP 3: Login as User (Alternative login)
+POST {{baseUrl}}/api/auth/login
+Content-Type: {{contentType}}
+
+{
+  "username": "user",
+  "password": "user123"
+}
+
+### STEP 4: Get All Products (First copy token from login response above!)
+GET {{baseUrl}}/api/products
+Authorization: Bearer {{token}}
+
+### STEP 5: Get Product by ID
+GET {{baseUrl}}/api/products/1
+Authorization: Bearer {{token}}
+
+### STEP 6: Search Products by Name
+GET {{baseUrl}}/api/products/search?name=laptop
+Authorization: Bearer {{token}}
+
+### STEP 7: Get Products by Category
+GET {{baseUrl}}/api/products/category/Electronics
+Authorization: Bearer {{token}}
+
+### STEP 8: Create New Product (Admin/Manager only)
+POST {{baseUrl}}/api/products
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "name": "Test Product",
+  "description": "A test product for API testing",
+  "price": 99.99,
+  "category": "Electronics",
+  "brand": "TestBrand",
+  "stockQuantity": 50
+}
+
+### STEP 9: Update Product Price (Admin/Manager only)
+PUT {{baseUrl}}/api/products/1/price
+Authorization: Bearer {{token}}
+Content-Type: {{contentType}}
+
+{
+  "newPrice": 1599.99
+}
+
+### STEP 10: Update Product Stock (Admin/Manager only)
+PUT {{baseUrl}}/api/products/1/stock?quantity=25
+Authorization: Bearer {{token}}
+
+### STEP 11: Find Products by Price Range
+GET {{baseUrl}}/api/products/price-range?minPrice=100&maxPrice=1000
+Authorization: Bearer {{token}}
+
+### STEP 12: Find Low Stock Products (Admin/Manager only)
+GET {{baseUrl}}/api/products/low-stock?threshold=20
+Authorization: Bearer {{token}}
+
+### STEP 13: Delete Product (Admin only)
+DELETE {{baseUrl}}/api/products/11
+Authorization: Bearer {{token}}
+
+### STEP 14: Check Application Health
+GET {{baseUrl}}/actuator/health
+
+### STEP 14.5: Open H2 Database Console
+### Go to: http://localhost:8080/h2-console
+### User: sa
+### Password: (empty)
+### Then click Connect and run: SELECT * FROM products WHERE id = 1;
+
+### STEP 15: Get Application Info
+GET {{baseUrl}}/actuator/info
