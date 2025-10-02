@@ -1,5 +1,9 @@
 package com.store.management.api.controller;
 
+import com.store.management.api.dto.CreateProductRequest;
+import com.store.management.api.dto.ProductResponse;
+import com.store.management.api.dto.UpdatePriceRequest;
+import com.store.management.api.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
